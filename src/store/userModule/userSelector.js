@@ -7,6 +7,6 @@ export const userState = () => {
   createSelector(GlobalState, (substate) => substate.user);
 };
 
-export const userDetails = () => {
+export const userData = () => {
   createSelector(globalUserState, (substate) => substate.user);
 };
