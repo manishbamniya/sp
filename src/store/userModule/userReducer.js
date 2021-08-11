@@ -3,6 +3,7 @@ const userData = (state = {}, action) => {
     case "GET_USER_DATA":
       return { ...state };
     case "USER_DATA_RECEIVED":
+      console.log(state)
       return { ...state, user: action.userFetchedData };
     default:
       return state;

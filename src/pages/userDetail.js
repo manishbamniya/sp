@@ -2,7 +2,7 @@ import React from "react";
 import { Paper, makeStyles, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import getUserData from "../store/userModule/userAction";
-import {  userData } from "../store/userModule/userSelector";
+import {  usersData } from "../store/userModule/userSelector";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function UserDetails(props) {
   const classes = useStyles();
-  const { userData } = props;
+  const { usersData } = props;
 
   let value = "";
   let dd = "";
@@ -48,7 +48,7 @@ function UserDetails(props) {
     Object.entries(dd).forEach(([key, val]) => result.push(`${key} : ${val}`));
   }
 
-  console.log(userData);
+  console.log(usersData);
 
   return (
     <>
@@ -75,7 +75,7 @@ function UserDetails(props) {
 }
 
 const mapStateToProps = () => ({
-  userData: userData(),
+  usersData: usersData(),
 });
 
 const mapDispatchToProps = (dispatch) => {
