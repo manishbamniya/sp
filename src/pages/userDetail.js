@@ -32,7 +32,7 @@ const useStyles = makeStyles((theme) => ({
 
 function UserDetails(props) {
   const classes = useStyles();
-  const { userDetail } = props;
+  const { userData } = props;
 
   let value = "";
   let dd = "";
@@ -48,7 +48,7 @@ function UserDetails(props) {
     Object.entries(dd).forEach(([key, val]) => result.push(`${key} : ${val}`));
   }
 
-  console.log(userDetail);
+  console.log(userData);
 
   return (
     <>
