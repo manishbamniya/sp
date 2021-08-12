@@ -1,72 +1,61 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Paper, makeStyles, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
-import getUserData from "../store/userModule/userAction";
-import {  usersData } from "../store/userModule/userSelector";
+import { getUserDetails } from "../store/userModule/userAction";
+import { useSelector } from "react-redux";
 
 const useStyles = makeStyles((theme) => ({
   root: {
     margin: theme.spacing(2, 4),
     padding: theme.spacing(2),
   },
-  userDataList: {
-    listStyle: "none",
-    borderBottom: "1px solid black",
-    padding: theme.spacing(2),
+
+  typo: {
     textAlign: "center",
+    letterSpacing: "1px",
+    margin: theme.spacing(0, 0, 1, 0),
   },
   ul: {
+    border: "1px solid black",
+    borderBottom: "none",
+    width: "50%",
     position: "relative",
-    left: "38%",
-    width: "25%",
-    borderTop: "1px solid black",
-    borderLeft: "1px solid black",
-    borderRight: "1px solid black",
+    left: "25%",
   },
-  typo: {
-    position: "relative",
-    left: "46%",
-    margin: theme.spacing(0, 0, 1, 0),
+  li: {
+    listStyle: "none",
+    padding: theme.spacing(2),
+    borderBottom: "1px solid black",
+    textAlign: "center",
   },
 }));
 
 function UserDetails(props) {
   const classes = useStyles();
-  const { usersData } = props;
+  const userID = props.match.params.id;
+  const userDetails = useSelector((state) => state.user.userdetails);
+  console.log("state", userDetails);
 
-  let value = "";
-  let dd = "";
-  let result = "";
-  if (props.location.data) {
-    value = Object.values(props.location.data).map((item) => {
-      return item;
-    });
-    dd = value.find((val) => {
-      return val;
-    });
-    result = [];
-    Object.entries(dd).forEach(([key, val]) => result.push(`${key} : ${val}`));
-  }
-
-  console.log(usersData);
+  useEffect(() => {
+    props.userDetails(userID);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
-      {/* <Button variant="contained" color="primary" onClick={() => showUserData}>
-        Click
-      </Button> */}
-
       <Paper className={classes.root}>
         <Typography variant="h5" className={classes.typo}>
           User Details
         </Typography>
         <ul className={classes.ul}>
-          {result
-            ? result.map((item) => (
-                <li className={classes.userDataList} key={item}>
-                  {item}
-                </li>
-              ))
+          {Array.isArray(userDetails) && userDetails.length > 0
+            ? userDetails.map((item) =>
+                Object.entries(item).map(([keys, value]) => (
+                  <li key={value} className={classes.li}>
+                    {keys} : {value}
+                  </li>
+                ))
+              )
             : null}
         </ul>
       </Paper>
@@ -74,14 +63,10 @@ function UserDetails(props) {
   );
 }
 
-const mapStateToProps = () => ({
-  usersData: usersData(),
-});
-
 const mapDispatchToProps = (dispatch) => {
   return {
-    showUserData: dispatch(getUserData()), //dispatching the action here
+    userDetails: (id) => dispatch(getUserDetails(id)),
   };
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(UserDetails);
+export default connect(null, mapDispatchToProps)(UserDetails);

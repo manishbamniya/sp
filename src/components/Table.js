@@ -78,7 +78,7 @@ export default function MainTable(props) {
   const renderRow = (head,rowsData) => {
     let value = ''
     if(head.valueGetter){
-      value = head.valueGetter(rowsData[head.field],rowsData)
+      value = head.valueGetter(rowsData[head.field])
     }else{
       value = rowsData[head.field]
     }
@@ -142,7 +142,7 @@ export default function MainTable(props) {
           <TableBody>
             {handleRecordsPaging().map( (item) => (
               <TableRow 
-                key={item.CustomerId}
+                key={item.employee_id}
               >
               {headCells.map( (value) => (
                   renderRow(value,item)            

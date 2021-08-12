@@ -1,7 +1,13 @@
-const getUserData = () => {
+export const getUserData = () => {
     return {
         type: "GET_USER_DATA"
     }
 }
 
-export default getUserData
+export const getUserDetails = (ID) => {
+    console.log("getUserDetails" + ID)
+    return {
+        type: "GET_USER_DETAILS",
+        id:ID
+    }
+}
