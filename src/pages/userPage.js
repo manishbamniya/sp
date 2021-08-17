@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import MainTable from "../components/Table";
 import { Link } from "react-router-dom";
 import { connect } from "react-redux";
@@ -29,7 +29,14 @@ const columns = [
 ];
 
 function UserPage(props) {
-  const { usersData, isFetching } = props;
+  const { usersData, isFetching, showUserData } = props;
+  console.log(usersData)
+
+  useEffect( () => {
+    showUserData()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  },[])
+
   return (
     <>
       <AddUser />
@@ -54,7 +61,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showUserData: dispatch(getUserData()),
+    showUserData: () => dispatch(getUserData()),
   };
 };
 

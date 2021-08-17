@@ -1,14 +1,17 @@
 const initialState = {
+  system : [],
   isFetching: false,
 };
 const systemData = (state = initialState, action) => {
   switch (action.type) {
     case "REQUEST_SYSTEM_DATA":
       return {
+        ...state,
         isFetching: true,
       };
     case "REQUEST_SYSTEM_DETAILS":
       return {
+        ...state,
         isFetching: true,
       };
     case "SYSTEM_DATA_RECEIVED":

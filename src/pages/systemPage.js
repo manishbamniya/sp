@@ -6,6 +6,9 @@ import MainTable from "../components/Table";
 import Spinner from "../components/Spinner";
 
 class SystemPage extends Component {
+  componentDidMount() {
+    this.props.showSystemData();
+  }
   render() {
     const systemData = this.props.systemData;
     const isFetching = this.props.isFetching;
@@ -35,9 +38,9 @@ class SystemPage extends Component {
       <>
         {isFetching ? (
           <Spinner />
-        ) : (
+        ) : Array.isArray(systemData) && systemData.length > 0 ? (
           <MainTable headCells={columns} records={systemData} />
-        )}
+        ) : null}
       </>
     );
   }
@@ -52,7 +55,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
   return {
-    showSystemData: dispatch(getSystemData()),
+    showSystemData: () => dispatch(getSystemData()),
   };
 };
 

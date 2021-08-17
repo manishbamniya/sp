@@ -6,10 +6,12 @@ const userData = (state = initialState, action) => {
   switch (action.type) {
     case "REQUEST_USER_DATA":
       return {
+        ...state,
         isFetching: true,
       };
     case "REQUEST_USER_DETAILS":
       return {
+        ...state,
         isFetching: true,
       };
 
