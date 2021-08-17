@@ -3,6 +3,8 @@ import { makeStyles, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getUserDetails } from "../store/userModule/userAction";
 import Spinner from "../components/Spinner";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
+import { Link } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -27,6 +29,9 @@ const useStyles = makeStyles((theme) => ({
     border: "1px solid black",
     textAlign: "center",
   },
+  backArrow: {
+    color:"black"
+  }
 }));
 
 function UserDetails(props) {
@@ -42,6 +47,11 @@ function UserDetails(props) {
 
   return (
     <>
+      <Link to="/">
+        < ArrowBackIcon 
+          className={classes.backArrow}
+        />
+      </Link>
       <Typography variant="h5" className={classes.typo}>
         User Details
       </Typography>
