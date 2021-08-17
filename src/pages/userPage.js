@@ -1,50 +1,61 @@
-import React  from 'react'
-import MainTable from '../components/Table'
-import { Link } from 'react-router-dom'
-import { connect, useSelector  } from "react-redux";
+import React from "react";
+import MainTable from "../components/Table";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
 import { getUserData } from "../store/userModule/userAction";
+import Spinner from "../components/Spinner";
+import AddUser from "../components/AddUser";
+import Filters from "../components/Filters";
 
 const columns = [
-  { field: 'employee_id', headerName: 'EmployeeID',
+  {
+    field: "employee_id",
+    headerName: "EmployeeID",
     valueGetter: (v) => {
-            return(
-              <Link
-                  to = {{
-                    pathname:`user/${v}/userDetails`,
-                  }}
-              >
-                <span>{v}</span>
-              </Link>
-            )
-          }},
-  { field: 'first_name', headerName: 'FirstName' },
-  { field: 'last_name', headerName: 'Last name' },
-  { field: 'is_deleted', headerName: 'isDeleted' },
+      return (
+        <Link
+          to={{
+            pathname: `user/${v}/userDetails`,
+          }}
+        >
+          <span>{v}</span>
+        </Link>
+      );
+    },
+  },
+  { field: "first_name", headerName: "FirstName" },
+  { field: "last_name", headerName: "Last name" },
+  { field: "is_deleted", headerName: "isDeleted" },
 ];
 
-export function UserPage() {
-  const usersData = useSelector( state => state.user)
-  const allUserData = []
-  const userListData = []
-  Object.values(usersData).map( (item) => {
-    return allUserData.push(item)
-  })
-  
-  allUserData.map( (item) => {
-    return Object.values(item).map((value)=> {return userListData.push(value)}) 
-  })
-
+function UserPage(props) {
+  const { usersData, isFetching } = props;
   return (
     <>
-    <MainTable headCells={columns} records={userListData}/>
+      <AddUser />
+      <Filters />
+      {isFetching ? (
+        <div>
+          <Spinner />
+        </div>
+      ) : (
+        <MainTable headCells={columns} records={usersData} />
+      )}
     </>
-  )
+  );
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    showUserData: dispatch(getUserData())
+    usersData: state.user.user,
+    isFetching: state.user.isFetching,
   };
 };
 
-export default connect(null, mapDispatchToProps)(UserPage);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    showUserData: dispatch(getUserData()),
+  };
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(UserPage);

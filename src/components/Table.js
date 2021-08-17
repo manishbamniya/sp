@@ -1,19 +1,16 @@
-import React,{useState} from 'react';
+import React,{useState } from 'react';
 import{ Table,
   TableContainer,
   TableHead,
   TableRow,
   TableCell,
   TableBody,
-  Paper,
   makeStyles,
   Typography,
   Select,
   MenuItem,
 } from  '@material-ui/core';
 import Pagination from '@material-ui/lab/Pagination';
-import Filters from './Filters';
-import AddUser from './AddUser';
 
 const useStyles = makeStyles( (theme) => ({
   root: {
@@ -51,7 +48,7 @@ const useStyles = makeStyles( (theme) => ({
 export default function MainTable(props) {
   const {
     headCells,
-    records
+    records,
   } = props
   const classes = useStyles()
   const pages = [5,10,15]
@@ -72,7 +69,11 @@ export default function MainTable(props) {
   }
 
   const labelPage = () => {
-    return `Records: ${(page-1)*rowsPerPage +1} - ${handleRecordsPaging().length < rowsPerPage ? records.length : (page)*rowsPerPage} From ${records.length}`
+    return `Records: 
+      ${(page-1)*rowsPerPage +1} - ${handleRecordsPaging().length < rowsPerPage ?
+            records.length 
+            :
+            (page)*rowsPerPage} From ${records.length}`
   }
 
   const renderRow = (head,rowsData) => {
@@ -90,12 +91,8 @@ export default function MainTable(props) {
     )
   }
 
-
   return (
     <>
-    <Paper className={classes.root}>
-      <AddUser />
-      <Filters /> 
       <div className={classes.div}>
           <Typography>
             {labelPage()}
@@ -115,7 +112,7 @@ export default function MainTable(props) {
             }}
             >
               {pages.map( (item) => (
-                <MenuItem key={item} value={item}>{item}</MenuItem>
+              <MenuItem key={item} value={item}>{item}</MenuItem>
               ))}
             </Select>
            
@@ -152,7 +149,6 @@ export default function MainTable(props) {
           </TableBody>
         </Table>
       </TableContainer>
-    </Paper>
     </>
   )
 }

@@ -1,8 +1,8 @@
 import React, { useEffect } from "react";
-import { Paper, makeStyles, Typography } from "@material-ui/core";
+import { makeStyles, Typography } from "@material-ui/core";
 import { connect } from "react-redux";
 import { getUserDetails } from "../store/userModule/userAction";
-import { useSelector } from "react-redux";
+import Spinner from "../components/Spinner";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -17,7 +17,6 @@ const useStyles = makeStyles((theme) => ({
   },
   ul: {
     border: "1px solid black",
-    borderBottom: "none",
     width: "50%",
     position: "relative",
     left: "25%",
@@ -25,28 +24,30 @@ const useStyles = makeStyles((theme) => ({
   li: {
     listStyle: "none",
     padding: theme.spacing(2),
-    borderBottom: "1px solid black",
+    border: "1px solid black",
     textAlign: "center",
   },
 }));
 
 function UserDetails(props) {
+  const { userDetails, isFetching } = props;
   const classes = useStyles();
-  const userID = props.match.params.id;
-  const userDetails = useSelector((state) => state.user.userdetails);
-  console.log("state", userDetails);
+  const userID = props.match.params.id; // getting the employee id from params
+  console.log("state of userDetails", userDetails);
 
   useEffect(() => {
-    props.userDetails(userID);
+    props.userDetailsAction(userID);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <Paper className={classes.root}>
-        <Typography variant="h5" className={classes.typo}>
-          User Details
-        </Typography>
+      <Typography variant="h5" className={classes.typo}>
+        User Details
+      </Typography>
+      {isFetching ? (
+        <Spinner />
+      ) : (
         <ul className={classes.ul}>
           {Array.isArray(userDetails) && userDetails.length > 0
             ? userDetails.map((item) =>
@@ -58,15 +59,22 @@ function UserDetails(props) {
               )
             : null}
         </ul>
-      </Paper>
+      )}
     </>
   );
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
   return {
-    userDetails: (id) => dispatch(getUserDetails(id)),
+    userDetails: state.user.userdetails,
+    isFetching: state.user.isFetching,
   };
 };
 
-export default connect(null, mapDispatchToProps)(UserDetails);
+const mapDispatchToProps = (dispatch) => {
+  return {
+    userDetailsAction: (id) => dispatch(getUserDetails(id)),
+  };
+};
+
+export default connect(mapStateToProps,mapDispatchToProps)(UserDetails);

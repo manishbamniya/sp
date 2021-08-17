@@ -1,13 +1,32 @@
-const initialState = {}
+const initialState = {
+  user: [],
+  isFetching: false,
+};
 const userData = (state = initialState, action) => {
   switch (action.type) {
-    case "GET_USER_DATA":
-      return { ...state };
+    case "REQUEST_USER_DATA":
+      return {
+        isFetching: true,
+      };
+    case "REQUEST_USER_DETAILS":
+      return {
+        isFetching: true,
+      };
+
     case "USER_DATA_RECEIVED":
-      return { ...state, user: action.userFetchedData };
+      console.log("state of userData ", state);
+      return {
+        ...state,
+        isFetching: false,
+        user: action.userFetchedData,
+      };
     case "USER_DETAILS_RECEIVED":
-      console.log("state of userDetail ",state)
-      return { ...state, userdetails: action.userFetchedDetails}
+      console.log("state of userDetail ", state);
+      return {
+        ...state,
+        isFetching:false,
+        userdetails: action.userFetchedDetails,
+      };
     default:
       return state;
   }
