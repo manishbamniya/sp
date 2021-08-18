@@ -38,9 +38,9 @@ class SystemPage extends Component {
       <>
         {isFetching ? (
           <Spinner />
-        ) : Array.isArray(systemData) && systemData.length > 0 ? (
+        ) : (
           <MainTable headCells={columns} records={systemData} />
-        ) : null}
+        )}
       </>
     );
   }

@@ -29,7 +29,7 @@ const systemData = (state = initialState, action) => {
       };
     default:
       return {
-        state,
+        ...state,
       };
   }
 };

@@ -30,7 +30,9 @@ const userData = (state = initialState, action) => {
         userdetails: action.userFetchedDetails,
       };
     default:
-      return state;
+      return {
+        ...state
+      };
   }
 };
 export default userData;
